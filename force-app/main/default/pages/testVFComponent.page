@@ -42,7 +42,7 @@
                         <apex:selectList value="{! PageSize }" size="1">
                             <apex:selectOption itemValue="5" itemLabel="5"/>
                             <apex:selectOption itemValue="20" itemLabel="20"/>
-                            <apex:actionSupport event="onchange" reRender="contacts_list"/>
+                            <apex:actionSupport event="onchange" reRender="accounts_list"/>
                         </apex:selectList>
                     </td>
                 </tr>

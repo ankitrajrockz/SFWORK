@@ -1,0 +1,50 @@
+<aura:component controller="ProductDetails"
+    implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="propertyList" type="New_Property__c[]" />
+    <aura:attribute name="propertiesFound" type="boolean" default="false" />
+    <!--for auto loading data in page. This is system event Initialization event-->
+    <aura:handler name="init" value="{!this}" action="{!c.fecthAllProp}" />
+
+
+    <aura:if isTrue="{!v.propertiesFound}">
+        <lightning:layout multipleRows="true">
+            <aura:iteration items="{!v.propertyList}" var="prop">
+                <lightning:layoutItem padding="around-small" size="6">
+                    <lightning:layout multipleRows="true">
+                        <div class="slds-box"  style="width:100%;background-color:white;">
+                            <lightning:layout>
+                                <lightning:layoutItem size="4" padding="around-small">
+                                    <lightning:formattedRichText value="{!prop.Property_Main_Image__c}"/>
+                                </lightning:layoutItem> 
+
+                                <lightning:layoutItem size="8" padding="around-small">
+                                    <lightning:card title="{!prop.Furnished_Type__c}">
+                                        <lightning:layoutItem size="12">
+                                            <p style="color:red;">INR: {!prop.Rent__c}</p>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <p>{!prop.Num_of_Bed_Room__c} BHK for Rent and Area is {!prop.Carpet_Area_sq_ft__c}</p>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <p>Location is {!prop.Area__c}</p>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <p>{!prop.Num_of_Bed_Room__c} Room, {!prop.Num_of_Bath_Room__c} Bathrooms, {!prop.Num_of_Balcony__c} Balcony at maintainance cost of {!prop.Maintainence_Charge__c}</p>
+                                        </lightning:layoutItem> 
+                                    </lightning:card>
+                                    
+                                </lightning:layoutItem> 
+
+                            </lightning:layout>
+                        </div>
+                    </lightning:layout>
+                </lightning:layoutItem>
+            </aura:iteration>
+
+
+        </lightning:layout>
+        <aura:set attribute="else">
+            <div>Properties not listed out as per selection.</div>
+        </aura:set>
+    </aura:if>
+</aura:component>

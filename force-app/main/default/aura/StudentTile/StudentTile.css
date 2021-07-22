@@ -1,0 +1,12 @@
+.THIS.tile.selected {
+    background-color:chartreuse;
+    size: 20px 20px;
+    border-radius: 10px;
+    
+}
+.THIS.tile{
+    background-color: blue;
+}
+.THIS .lower-third{
+    background-color: coral;
+}

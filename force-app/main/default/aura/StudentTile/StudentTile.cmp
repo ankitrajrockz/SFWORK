@@ -1,0 +1,15 @@
+<aura:component>
+    <aura:attribute name="student" type="Contact" access="Public"
+        default="{'sobjectType':'Contact','Name':'Ankit Raj','PhotoUrl':'/services/images/photo/003B0FakePictId'}" />
+    <aura:attribute name="selected" type="boolean" access="public" default="false"/>
+
+    <div class="{! v.selected ? 'tile selected' : 'tile'}" onclick="{! c.onStudentClick}">
+        <div class="innertile" >
+            <img src="{!v.student.PhotoUrl}" class="innertile"/>
+            <div class="lower-third">
+                <h1 class="truncate">{! v.student.Name}</h1>
+            </div>
+        </div>
+    </div>
+
+</aura:component>

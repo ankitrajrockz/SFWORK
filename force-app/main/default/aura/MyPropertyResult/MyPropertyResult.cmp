@@ -2,6 +2,9 @@
     implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
     <aura:attribute name="propertyList" type="New_Property__c[]" />
     <aura:attribute name="propertiesFound" type="boolean" default="false" />
+    <aura:attribute name="openOwnerDetails" type="boolean" default="false" />
+    <aura:attribute name="propownerId" type="String" />
+
     <!--for auto loading data in page. This is system event Initialization event-->
     <aura:handler name="init" value="{!this}" action="{!c.fecthAllProp}" />
 
@@ -11,29 +14,44 @@
             <aura:iteration items="{!v.propertyList}" var="prop">
                 <lightning:layoutItem padding="around-small" size="6">
                     <lightning:layout multipleRows="true">
-                        <div class="slds-box"  style="width:100%;background-color:white;">
+                        <div class="slds-box" style="width:100%;background-color:beige;">
                             <lightning:layout>
                                 <lightning:layoutItem size="4" padding="around-small">
-                                    <lightning:formattedRichText value="{!prop.Property_Main_Image__c}"/>
-                                </lightning:layoutItem> 
+                                    <lightning:formattedRichText value="{!prop.Property_Main_Image__c}" />
+                                </lightning:layoutItem>
 
                                 <lightning:layoutItem size="8" padding="around-small">
                                     <lightning:card title="{!prop.Furnished_Type__c}">
                                         <lightning:layoutItem size="12">
-                                            <p style="color:red;">INR: {!prop.Rent__c}</p>
+                                            <p style="color:red;padding: 10px;">INR: {!prop.Rent__c}</p>
                                         </lightning:layoutItem>
                                         <lightning:layoutItem size="12">
-                                            <p>{!prop.Num_of_Bed_Room__c} BHK for Rent and Area is {!prop.Carpet_Area_sq_ft__c}</p>
+                                            <p style="padding: 10px;">{!prop.Num_of_Bed_Room__c} BHK for Rent and Area
+                                                is {!prop.Carpet_Area_sq_ft__c}</p>
                                         </lightning:layoutItem>
                                         <lightning:layoutItem size="12">
-                                            <p>Location is {!prop.Area__c}</p>
+                                            <p style="padding: 10px;">Location is {!prop.Area__c}</p>
                                         </lightning:layoutItem>
                                         <lightning:layoutItem size="12">
-                                            <p>{!prop.Num_of_Bed_Room__c} Room, {!prop.Num_of_Bath_Room__c} Bathrooms, {!prop.Num_of_Balcony__c} Balcony at maintainance cost of {!prop.Maintainence_Charge__c}</p>
-                                        </lightning:layoutItem> 
+                                            <p style="padding: 10px;">{!prop.Num_of_Bed_Room__c} Room,
+                                                {!prop.Num_of_Bath_Room__c} Bathrooms, {!prop.Num_of_Balcony__c} Balcony
+                                                at maintainance cost of {!prop.Maintainence_Charge__c}</p>
+                                        </lightning:layoutItem>
                                     </lightning:card>
-                                    
-                                </lightning:layoutItem> 
+                                    <div class="slds-p-top_small">
+                                        <lightning:buttonGroup>
+                                            <lightning:button class="btnstyle" label="Enquirey" variant="brand"
+                                                iconName="utility:help_center" iconPosition="left" value="{! prop.id}"
+                                                onclick="{!c.feedbackClk}" />
+                                            <lightning:button class="btnstyle" label="Owner Details" variant="brand"
+                                                iconName="utility:people" iconPosition="left"
+                                                value="{! prop.Property_Owner__c}" onclick="{!c.ownerDetails}" />
+                                            <lightning:button class="btnstyle" label="Property Details" variant="brand"
+                                                iconName="utility:bucket" iconPosition="left" value="{! prop.id}"
+                                                onclick="{!c.propertyDetails}" />
+                                        </lightning:buttonGroup>
+                                    </div>
+                                </lightning:layoutItem>
 
                             </lightning:layout>
                         </div>
@@ -46,5 +64,21 @@
         <aura:set attribute="else">
             <div>Properties not listed out as per selection.</div>
         </aura:set>
+    </aura:if>
+    <aura:if isTrue="{!v.openOwnerDetails}">
+        <div style="margin-top:5%">
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header"> 
+                        <lightning:card title="Property Owner Details" iconName="action:user" class="slds-align_absolute-center">
+                            <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" onclick="{!c.closeOwnerModel}"/>
+                        </lightning:card>
+                    </header>
+                    <div class="slds-modal__content">
+                        <c:PropertyOwnerDetails ownerId="{!v.propownerId}"/>
+                    </div>
+                </div>
+            </section>
+        </div>
     </aura:if>
 </aura:component>
